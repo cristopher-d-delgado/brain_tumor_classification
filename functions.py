@@ -161,8 +161,8 @@ def get_callbacks():
     from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
     
     # Initialize callbacks 
-    stop = EarlyStopping(monitor='val_loss', mode='min', min_delta=0.001, patience=8, restore_best_weights=True, verbose=1)
-    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, min_delta=0.01, patience=4, verbose=1)
+    stop = EarlyStopping(monitor='val_loss', mode='min', min_delta=0.001, patience=20, restore_best_weights=True, verbose=1)
+    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, min_delta=0.01, patience=5, verbose=1)
     
     # Initialize callbacks 
     return [stop, reduce_lr]
