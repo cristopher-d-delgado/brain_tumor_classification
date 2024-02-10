@@ -99,19 +99,15 @@ def data_augmentation(img_dims, batch_size, train_data_dir, test_data_dir, val_d
     # Set up data generators for training, testing, and validation
     train_datagen = ImageDataGenerator(
         rescale=1./255,
-        rotation_range=20,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
+        rotation_range=45,
         vertical_flip=True,
-        horizontal_flip=True, 
-        fill_mode='nearest'
+        horizontal_flip=True,
+        fill_mode='nearest',
         )
     
     val_datagen = ImageDataGenerator(
         rescale=1./255,
-        rotation_range=20,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
+        rotation_range=45,
         vertical_flip=True,
         horizontal_flip=True, 
         fill_mode='nearest'        
@@ -127,7 +123,8 @@ def data_augmentation(img_dims, batch_size, train_data_dir, test_data_dir, val_d
         batch_size=batch_size,
         class_mode='categorical',
         color_mode='rgb',
-        shuffle=True
+        shuffle=True,
+        seed=42
     )
     
     test_generator = test_datagen.flow_from_directory(
@@ -136,7 +133,8 @@ def data_augmentation(img_dims, batch_size, train_data_dir, test_data_dir, val_d
         batch_size=batch_size,
         class_mode='categorical',
         color_mode='rgb',
-        shuffle=False
+        shuffle=False,
+        seed=42
     )
     
     val_generator = val_datagen.flow_from_directory(
@@ -145,7 +143,8 @@ def data_augmentation(img_dims, batch_size, train_data_dir, test_data_dir, val_d
         batch_size=batch_size,
         class_mode='categorical',
         color_mode='rgb',
-        shuffle=False
+        shuffle=False,
+        seed=42
     )
     
     return train_generator, test_generator, val_generator 
