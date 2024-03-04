@@ -1,8 +1,8 @@
 import streamlit as st
 from keras.models import load_model
-from predict import predict_image_class, load_and_preprocess_image
-import os
+from predict import classify
 from PIL import Image
+import numpy as np
 
 # Title app
 st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
@@ -36,3 +36,12 @@ file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
 if file is not None:
     image = Image.open(file).convert('RGB')
     st.image(image, use_column_width=True)
+    
+    # Classify image
+    class_name, prob = classify(image, aug_model, class_names)
+    
+    probability = round(prob*100, 2)
+    
+    # Write classification
+    st.write(f"## The Brain MRI image is most likely a {class_name[0]} instance")
+    st.write(f"### The probability that the image is a {class_name[0]} instance is: {probability}%")
