@@ -68,7 +68,7 @@ if file is not None:
     st.write(f"### The probability that the image is a {class_name[0]} instance is: {probability}%")
 
     # Lime Explanation
-    with st.expander("See Lime Explanation"):
+    with st.expander("See Lime Explanation Mask and Importance Heatmap"):
         with st.container():
             # Divide container into 2 columns
             col_1, col_2 = st.columns(2)
@@ -103,7 +103,7 @@ if file is not None:
 
             # Display mask and image in column 2
             with col_1:
-                st.image(mark_boundaries(temp / 2 + 0.5, mask), caption="Lime Explanation", use_column_width=True)
+                st.image(mark_boundaries(temp / 2 + 0.5, mask), caption="Lime Mask", use_column_width=True)
             
             # Using the same explainer get a heatmap version that explains the areas that contribute most to that decision
             # Select the top label
@@ -117,10 +117,12 @@ if file is not None:
 
                 # Display heatmap 
                 # Display normalized heatmap with colorbar
+                plt.figure(figsize=(8,6), facecolor='white')
                 plt.imshow(heatmap, cmap='RdBu', vmin=-heatmap.max(), vmax=heatmap.max())
-                plt.colorbar()
-                plt.title("Heatmap")
-                plt.axis('off')  # Hide axes
+                cbar = plt.colorbar()
+                cbar.ax.tick_params(labelsize=15)
+                plt.title("Blue = More Important; Red = Less Important", fontsize=20)
+                plt.axis("off")  # Hide axes
                 plt.show()
                 
                 # Save plot as bytes
