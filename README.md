@@ -39,8 +39,29 @@ Before any modeling was conducted the images needed to be pre-processed in a man
 |   Testing  |       90.79%       |         91.21%        |  91.14%  |                   0.647                   |
 | Validation |       95.09%       |         95.64%        |  95.44%  |                   0.118                   |
 
-### Developed Model (Version 10)
+### Developed Model (Version 07)
 
+|     Set    | Sensitivity/Recall | Specificity/Precision | Accuracy | Validation Loss/Generalization Capability |
+|:----------:|:------------------:|:---------------------:|:--------:|:-----------------------------------------:|
+|  Training  |       99.94%       |         99.94%        |  99.94%  |                   0.013                   |
+|   Testing  |       91.96%       |         92.01%        |  91.96%  |                   0.728                   |
+| Validation |       98.09%       |         99.26%        |  98.09%  |                   0.091                   |
+
+### Optimized Model (Utilizes Version 07)
+
+|     Set    | Sensitivity/Recall | Specificity/Precision | Accuracy | Validation Loss/Generalization Capability |
+|:----------:|:------------------:|:---------------------:|:--------:|:-----------------------------------------:|
+|  Training  |       100.00%      |        100.00%        |  100.00% |                   0.003                   |
+|   Testing  |       92.49%       |         92.98%        |  92.49%  |                   0.727                   |
+| Validation |       97.92%       |         97.92%        |  97.92%  |                   0.086                   |
+
+### Augmented Model (Utilizes Version 07 further trained on Augmented images)
+
+|     Set    | Sensitivity/Recall | Specificity/Precision | Accuracy | Validation Loss/Generalization Capability |
+|:----------:|:------------------:|:---------------------:|:--------:|:-----------------------------------------:|
+|  Training  |       99.94%       |         99.97%        |  99.97%  |                   0.006                   |
+|   Testing  |       92.37%       |         93.14%        |  92.37%  |                   0.584                   |
+| Validation |       97.92%       |         97.98%        |  97.92%  |                   0.081                   |
 
 ## Conclusion
 
