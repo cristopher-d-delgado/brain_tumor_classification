@@ -2,6 +2,7 @@
 ## Buisness Understanding 
 ### Background
 
+
 ## Data Understanding
 The data used in this repository is a custom distribution that merges three datasets of images from Kaggle. The first source is from a Kaggle dataset named [Brain Tumor Classification (MRI)](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri), the second dataset is named [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset), and lastly the third dataset is named [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection).
 
@@ -76,8 +77,19 @@ There were many model iterations however only 4 iterations are considered vital 
 | Validation |       97.92%       |         97.98%        |  97.92%  |                   0.081                   |
 
 ## Conclusion
+The best model was the augmented model because this model achieved the best Recall/Sensitivity while still having the best generalization to unseen data. This was determined from its low validation loss to the testing data. This model had a Sensitivity of about 92% and Specificity of about 93%. Overall the model performs very well but, struggles in the No Tumor classification and Meningioma. 
 
+There are 54 instances where the model classifies the image as a tumor (glioma: 40, meningioma: 4, pituitary: 10) when it should have been a no_tumor classification. There are 63 instances where the model mis-classifies the image (glioma: 49, no_tumor: 2, pituitary_tumor) when it should have been meningioma_tumor. This information is also represented in the confusion matrix below.
 
+In conclusion, the best model architecture is demonstrated below in the 'Final Model Architecture Section' and its performance on the test data under the 'Model Performance' section. The model does very well with unseen data with over 90% accuracy. 
+
+**My recommendation would be to utilize this model in assisting for brain tumor classification.**
+
+### Final Model Architecture
 ![best_model_arch](images/model_arch.jpg)
 
+### Model Performance
+![confusion_matrix_test](images/confusion_matrix_augmented.png)
+
 ### Next Steps
+Keep training the model on new images to achieve a better classification performance for meningioma and no_tumor images. Adding on, the model can be trained specifically only those instances in hopes to improve its learning capability for them.
