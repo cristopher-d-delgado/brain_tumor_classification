@@ -31,6 +31,18 @@ Before any modeling was conducted the images needed to be pre-processed in a man
 ![image_examples](images/pre_process_ex.png)
 
 ## Modeling 
+During training of the deep neural networks there were 5 metrics that were being monitored: Sensitivity, Specificity, Accuracy, Validation Loss, and Training Loss. Adding on, a model evaluation was also conducted to view performance on the test dataset allowing for overall assessment of model generalization and performance.
+
+For each model iteration found in the [notebook](https://github.com/cristopher-d-delgado/brain_tumor_classification/blob/main/notebook.ipynb), the first step is always to define the model architecture followed by a training session using that defined architecture. The model training was conducted by a function called 'train_model()'. 
+
+Adding on, there are graphs that plot the training loss vs validation loss (Loss vs Epoch), training recall & precision (Train Recall & Precision vs Epoch), validation recall & precision (Validation Recall & Precision), and lastly the accuracy (Accuracy vs Epoch) during model training. This is supplied by the 'view_history()' function. 
+
+The last step was to conduct an overall assessment of the model by testing it on unseen data which is the testing data. This was conducted using the 'model_evaluate()' function. 
+
+There were many model iterations however only 4 iterations are considered vital pivot points in the model iterations. This would be the base_model, the developed version 07 model, the optimized version of the same model, and the augmented model version. All of these models are summarized below.
+
+*All the function can be found [here](https://github.com/cristopher-d-delgado/brain_tumor_classification/blob/main/functions.py)
+
 ### Base Model
 
 |     Set    | Sensitivity/Recall | Specificity/Precision | Accuracy | Validation Loss/Generalization Capability |
@@ -64,5 +76,8 @@ Before any modeling was conducted the images needed to be pre-processed in a man
 | Validation |       97.92%       |         97.98%        |  97.92%  |                   0.081                   |
 
 ## Conclusion
+
+
+![best_model_arch](images/model_arch.jpg)
 
 ### Next Steps
