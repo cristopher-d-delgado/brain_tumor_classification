@@ -31,6 +31,16 @@ Before any modeling was conducted the images needed to be pre-processed in a man
 ![image_examples](images/pre_process_ex.png)
 
 ## Modeling 
+### Base Model
+
+|     Set    | Sensitivity/Recall | Specificity/Precision | Accuracy | Validation Loss/Generalization Capability |
+|:----------:|:------------------:|:---------------------:|:--------:|:-----------------------------------------:|
+|  Training  |       99.84%       |         99.85%        |  99.85%  |                   0.018                   |
+|   Testing  |       90.79%       |         91.21%        |  91.14%  |                   0.647                   |
+| Validation |       95.09%       |         95.64%        |  95.44%  |                   0.118                   |
+
+### Developed Model (Version 10)
+
 
 ## Conclusion
 
