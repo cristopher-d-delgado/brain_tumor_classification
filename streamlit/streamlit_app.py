@@ -35,7 +35,7 @@ def load_lime_explainer():
     return explainer
 
 # Load classifier
-aug_path = "models/op_model1_aug.keras"
+aug_path = "../models/op_model1_aug.keras"
 aug_model = load_keras_model(aug_path)
 
 # Define Class Names
@@ -107,7 +107,7 @@ if file is not None:
                 # Display Lime Mask using matplotlib
                 plt.figure(figsize=(8, 6), facecolor='white')
                 plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
-                plt.title(" Concerning area", fontsize=20)
+                plt.title("Concerning Area", fontsize=20)
                 plt.axis("off")
                 plt.tight_layout()
                 plt.show()
@@ -177,7 +177,7 @@ st.write(
 st.write("The detailed dive into the model training and development can be found in the following [repository]('https://github.com/cristopher-d-delgado/brain_tumor_classification').")
 
 # Display Model architecture plot
-st.image("images/model_arch.jpg", use_column_width=True)
+st.image("../images/model_arch.jpg", use_column_width=True)
 
 # Make Secondary Header 
 st.write("## Performance of Testing Data")
@@ -200,7 +200,7 @@ st.write(
 )
 
 # Display data distribution
-st.image("images/merged_dist.png", use_column_width=True)
+st.image("../images/merged_dist.png", use_column_width=True)
 
 # Make text explaining confusion matrix 
 # Make a table with metrics on model
@@ -222,4 +222,4 @@ st.write("## Model Metrics")
 st.table(df)
 
 # Display Confusion matrix
-st.image("images/confusion_matrix_augmented.png", use_column_width=True)
+st.image("../images/confusion_matrix_augmented.png", use_column_width=True)
