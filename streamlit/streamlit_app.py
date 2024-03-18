@@ -46,9 +46,16 @@ url = "https://braintumorclassificationcap.s3.us-west-1.amazonaws.com/op_model1_
 aug_model = load_keras_model(url, "op_model1_aug.keras")
 
 # Define Class Names
-with open('labels.txt', 'r') as f:
-    class_names = [a[:-1].split(' ') for a in f.readlines()]
-    f.close()
+# with open('labels.txt', 'r') as f:
+#     class_names = [a[:-1].split(' ') for a in f.readlines()]
+#     f.close()
+# Define Class Names
+class_names = [
+    "glioma",
+    "meningioma",
+    "no_tumor",
+    "pituitary"
+]
 
 # Upload File
 file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
@@ -72,8 +79,8 @@ if file is not None:
     probability = round(prob*100, 2)
     
     # Write classification
-    st.write(f"#### The Brain MRI image is most likely a {class_name[0]} instance")
-    st.write(f"#### The probability that the image is a {class_name[0]} instance is: {probability}%")
+    st.write(f"#### The Brain MRI image is most likely a {class_name} instance")
+    st.write(f"#### The probability that the image is a {class_name} instance is: {probability}%")
 
     # Lime Explanation
     with st.expander("See Lime Explanation Mask and Importance Heatmap"):
