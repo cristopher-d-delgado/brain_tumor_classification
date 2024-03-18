@@ -165,3 +165,7 @@ models/
 trials/
 **/untitled_project/
 temp_data/
+
+# Ignore Keras model files
+*.h5
+*.hdf5
