@@ -1,6 +1,5 @@
 from PIL import ImageOps, Image
 import numpy as np
-from keras.models import load_model
 
 def classify(image, model, class_names):
     """

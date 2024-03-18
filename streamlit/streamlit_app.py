@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 import pandas as pd
+import requests
 
 # Title app
 st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
@@ -17,13 +18,19 @@ st.header('Please upload Brain MRI Slice Image', divider='blue')
 
 # Cache augemented model
 @st.cache_resource
-def load_keras_model(path):
+def load_keras_model(url, file_path):
     """
-    path = string
+    bucket_name = string
+    object_key = string
     """
-    # Load classifier for mri images
-    model = load_model(path)
-    return model
+    s3_url = url
+    try:
+        response = requests.get(s3_url)
+        with open(file_path, 'wb') as f:
+            f.write(response.content)
+        return load_model(file_path)
+    except Exception as e:
+        return None
 
 # Cache Lime explainer
 @st.cache_resource
@@ -35,8 +42,8 @@ def load_lime_explainer():
     return explainer
 
 # Load classifier
-aug_path = "../models/op_model1_aug.keras"
-aug_model = load_keras_model(aug_path)
+url = "https://braintumorclassificationcap.s3.us-west-1.amazonaws.com/op_model1_aug.keras"
+aug_model = load_keras_model(url, "op_model1_aug.keras")
 
 # Define Class Names
 with open('labels.txt', 'r') as f:
