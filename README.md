@@ -1,12 +1,27 @@
 # Brain Tumor Classification
+## Background
+Brain cancer is one of the top 10 cancers that can lead to death (Gao & Jiang, 2013). A brain tumor is defined as "unexpected growth of brian cells" (Reham Kaifi, 2023). The World Health Organization has categorized brain tumors into 120 categories. This categorization is all based on the cell's origin and behavior that can range from less aggressive to greater aggressive (Reham Kaifi, 2023). There are only two types of brain tumor if they are based on nature. These two types of brain tumors would be Benign and Malignant. Benign are less aggressive and grow slowly while malignant are life threatening and rapidly grow (Reham Kaifi, 2023). To be more descriptive there are normally four tumor grades shown in the table below.
+
+|  Grading  |                                     Definition                                    |
+|:---------:|:---------------------------------------------------------------------------------:|
+|  Grade I  | Tumor has a regular symmetric shape. Adding on, it develops slowly.               |
+|  Grade II | Tumor appears strange and unsymmetrical/disoriented. The tumor also grows slowly. |
+| Grade III | These tumors are described as grade II but they grow faster than grade II tumors. |
+|  Grade IV | Has a high growth rate                                                            |
+
+The gold standard protocol for assessment relies on MRI (Magnetic Resonance Imaging) imaging and the neurologists would take these images and examine them from the coronal, sagittal, and axial planes (Reham Kaifi, 2023). The process continues as the requirement for some computer vision sequence known as FLAIR is required to modify the images in order to get rid of the spinal fluid noise signals from the imaging which creates MRI imaging as shown in the image examples within the "Data Preparation" section.
+
+Following the biomedical imaging a biopsy is required in order to make a final diagnosis on the tumor type and grade. A pathologist would examine the tissue sample in order to determine if cancer is present. The sample is usually taken during surgery when removing the entire tumor (Brain Tumor - Diagnosis, 2012). 
+
 ## Buisness Understanding 
-### Background
 
 
 ## Data Understanding
 The data used in this repository is a custom distribution that merges three datasets of images from Kaggle. The first source is from a Kaggle dataset named [Brain Tumor Classification (MRI)](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri), the second dataset is named [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset), and lastly the third dataset is named [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection).
 
 Individually the dataset distributions are as shown in data distribution section as well as the merged dataset. All three datasets shared the labeled categories allow for a creation of a multi-classification deep learning model. The "[Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)" dataset only had two categories but, using the 'no_tumor class was still useful information. The 'tumor' class was not for this dataset was not utilized for the classification problem.
+
+The data used in this repository uses three tumor classifications which are glioma, meningioma, and pituitary tumors. As mentioned before there are a range of grades however the data is not labeled in such a way in which we can utilize such information for classification. In other words, the only information we have for every tumor is its label and image. 
 
 ### Data Distribution
 |[Brain Tumor Classification (MRI)](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri)|[Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset)|
