@@ -1,5 +1,5 @@
 streamlit
 pandas
-tensorflow
+tensorflow==2.10.1 
 lime
 scikit-image
