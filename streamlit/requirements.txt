@@ -1,4 +1,4 @@
-keras==2.10.0
+tensorflow-gpu==2.10.1
 lime==0.2.0.1
 matplotlib==3.8.2
 Pillow==10.2.0
