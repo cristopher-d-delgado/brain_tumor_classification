@@ -7,6 +7,7 @@ from skimage.segmentation import mark_boundaries
 import numpy as np
 import matplotlib.pyplot as plt
 import io
+import pandas as pd
 
 # Title app
 st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
@@ -64,8 +65,8 @@ if file is not None:
     probability = round(prob*100, 2)
     
     # Write classification
-    st.write(f"### The Brain MRI image is most likely a {class_name[0]} instance")
-    st.write(f"### The probability that the image is a {class_name[0]} instance is: {probability}%")
+    st.write(f"#### The Brain MRI image is most likely a {class_name[0]} instance")
+    st.write(f"#### The probability that the image is a {class_name[0]} instance is: {probability}%")
 
     # Lime Explanation
     with st.expander("See Lime Explanation Mask and Importance Heatmap"):
@@ -103,8 +104,26 @@ if file is not None:
 
             # Display mask and image in column 2
             with col_1:
-                st.image(mark_boundaries(temp / 2 + 0.5, mask), caption="Lime Mask", use_column_width=True)
-            
+                # Display Lime Mask using matplotlib
+                plt.figure(figsize=(8, 6), facecolor='white')
+                plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
+                plt.title(" Concerning area", fontsize=20)
+                plt.axis("off")
+                plt.tight_layout()
+                plt.show()
+
+                # Save plot as bytes
+                mask_buf = io.BytesIO()
+                plt.savefig(mask_buf, format='png')
+                mask_buf.seek(0)
+
+                # Display mask using Streamlit
+                st.image(mask_buf, caption='Lime Explainer Mask. Demonstrates only the concerning area.', use_column_width=True)
+
+                # Delete mask_buf object to free up memory
+                plt.close()
+                del mask_buf
+                
             # Using the same explainer get a heatmap version that explains the areas that contribute most to that decision
             # Select the top label
             with col_2:
@@ -131,7 +150,7 @@ if file is not None:
                 buf.seek(0)
 
                 # Display heatmap using Streamlit
-                st.image(buf, caption='Heatmap', use_column_width=True)
+                st.image(buf, caption='Importance Heatmap', use_column_width=True)
                 
                 # Delete buf object to free up memory
                 del buf
@@ -145,8 +164,62 @@ if file is not None:
 # Make Section Header
 st.header('Model Information', divider='blue')
 
+# Make Secondary Header
+st.write("## Model Architecture")
+
+# Make text explaining methodology
+st.write(
+    "The final model architecture is found in the 'Model Architecture' section below. "
+    "This model architecture is also the same model that is being used for the model classification that is utilized in this app for image predictions. "
+    "The model uses 4 Convolutional layers, 4 Maxpooling layers, 2 Dropout layers, and 4 Fully Connected layers. The output layer is a 4 neuron output. In order to classify 'no_tumor', 'pituitary', 'meningioma', and 'glioma'. "
+)
+
+st.write("The detailed dive into the model training and development can be found in the following [repository]('https://github.com/cristopher-d-delgado/brain_tumor_classification').")
+
+# Display Model architecture plot
+st.image("images/model_arch.jpg", use_column_width=True)
+
 # Make Secondary Header 
 st.write("## Performance of Testing Data")
+
+# Make text explaining test data
+st.write(
+    "The testing data used for the model development originates from Kaggle."
+    "The first source is from a Kaggle dataset named [Brain Tumor Classification (MRI)](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri), "
+    "the second dataset is named [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset), " 
+    " and lastly the third dataset is named [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection). "
+)
+st.write(
+    "The testing data distribution consisted of 400 glioma, 421 meningioma, and 374 pituitary tumor images. "
+    "There were 510 images that had no tumor present in the testing set. "
+    "The data distribution is shown in the 'Merged Dataset Figure' below."
+)
+st.write(
+    "The individual performance of each class is demonstrated in the confusion matrix figure below."
+    "Adding on, the model performed with a 92% accuracy on unseen data."
+)
+
+# Display data distribution
+st.image("images/merged_dist.png", use_column_width=True)
+
+# Make text explaining confusion matrix 
+# Make a table with metrics on model
+data = {
+    'Set': ['Training', 'Testing', 'Validation'],
+    'Sensitivity': ['99.94%', '92.37%', '97.92%'],
+    'Specificity': ['99.97%', '93.14%', '97.98%'],
+    'Accuracy': ['99.97%', '92.37%', '97.92%'],
+    'Validation Loss/Generalization': [0.006, 0.584, 0.081]
+}
+
+# Create a DataFrame from the sample data
+df = pd.DataFrame(data)
+
+# Make header for table
+st.write("## Model Metrics")
+
+# Display the table
+st.table(df)
 
 # Display Confusion matrix
 st.image("images/confusion_matrix_augmented.png", use_column_width=True)

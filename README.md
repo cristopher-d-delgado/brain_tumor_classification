@@ -20,7 +20,7 @@ Utilizing a machine learning algorithm such as Deep Neural Networks can not only
 
 Siemens is looking to incorporate machine learning algorithms into there MRI portfolio. Where there MRI technology can not only provide diagnostic images for experts but also provide insightful diagnostic information in regards to cancer diagnostics. Although there are many areas in the body that can show as cancerous they are wanting to slowly incorporate all areas into their portfolio over time.
 
-**The objective would be to develop a diagnostic tool that can create insights for diagnosing brain tumors. This model would aim to classify such tumors and provide insight in addition to classification to help aid in diagnosis and treatment.**
+**The objective would be to develop a diagnostic tool that can create insights for diagnosing brain tumors. This model would aim to classify such tumors and provide insight in addition to classification to help aid in diagnosis and treatment. Adding on, the model should prioritize Sensitivity as capturing the most positive cases is important because misclassifying a tumor case as no tumor is far worse than incorrectly classifying a no tumor case as a tumor.**
 
 ## Data Understanding
 The data used in this repository is a custom distribution that merges three datasets of images from Kaggle. The first source is from a Kaggle dataset named [Brain Tumor Classification (MRI)](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri), the second dataset is named [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset), and lastly the third dataset is named [Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection).
@@ -98,6 +98,10 @@ There were many model iterations however only 4 iterations are considered vital 
 | Validation |       97.92%       |         97.98%        |  97.92%  |                   0.081                   |
 
 ### Model Deployment 
+I have created a Streamlit application that utilizes the best model which was the **Augemented model**. This application works by passing in an image and the application will provide the model prediction in addition to diagnostic information.
+
+#### Streamlit App
+
 
 ## Conclusion
 The best model was the augmented model because this model achieved the best Recall/Sensitivity while still having the best generalization to unseen data. This was determined from its low validation loss to the testing data. This model had a Sensitivity of about 92% and Specificity of about 93%. Overall the model performs very well but, struggles in the No Tumor classification and Meningioma.
