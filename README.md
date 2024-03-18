@@ -108,3 +108,10 @@ In conclusion, the best model architecture is demonstrated below in the 'Final M
 
 ### Next Steps
 Keep training the model on new images to achieve a better classification performance for meningioma and no_tumor images. Adding on, the model can be trained specifically only those instances in hopes to improve its learning capability for them.
+
+## References 
+1. Brain Tumor - Diagnosis. (2012, June 26). Cancer.net. https://www.cancer.net/cancer-types/brain-tumor/diagnosis
+
+‌2. Gao, H., & Jiang, X. (2013). Progress on the diagnosis and evaluation of brain tumors. Cancer Imaging, 13(4), 466–481. https://doi.org/10.1102/1470-7330.2013.0039
+
+‌3. Reham Kaifi. (2023). A Review of Recent Advances in Brain Tumor Diagnosis Based on AI-Based Classification. Diagnostics, 13(18), 3007–3007. https://doi.org/10.3390/diagnostics13183007
