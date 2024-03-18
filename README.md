@@ -101,7 +101,11 @@ There were many model iterations however only 4 iterations are considered vital 
 I have created a Streamlit application that utilizes the best model which was the **Augemented model**. This application works by passing in an image and the application will provide the model prediction in addition to diagnostic information.
 
 #### Streamlit App
+To access the application please click [here](https://braintumorclassification-iwpxfhqwzxcvqsgjxbmjuw.streamlit.app/)
 
+The following image is an example of the application itself: 
+
+![app_example](images/app_example.jpg)
 
 ## Conclusion
 The best model was the augmented model because this model achieved the best Recall/Sensitivity while still having the best generalization to unseen data. This was determined from its low validation loss to the testing data. This model had a Sensitivity of about 92% and Specificity of about 93%. Overall the model performs very well but, struggles in the No Tumor classification and Meningioma.
