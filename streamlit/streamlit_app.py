@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import io
 import pandas as pd
 import requests
+import os
 
 # Title app
 st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
@@ -190,6 +191,9 @@ if file is not None:
         
 
 #### Make a section talking about the model 
+# define root directory for images
+root_dir = os.path.abspath(os.path.dirname(__file__))
+
 
 # Make Section Header
 st.header('Model Information', divider='blue')
@@ -207,7 +211,7 @@ st.write(
 st.write("The detailed dive into the model training and development can be found in the following [repository]('https://github.com/cristopher-d-delgado/brain_tumor_classification').")
 
 # Display Model architecture plot
-st.image("../images/model_arch.jpg", use_column_width=True)
+st.image(os.path.join(root_dir, "images", "model_arch.jpg"), use_column_width=True)
 
 # Make Secondary Header 
 st.write("## Performance of Testing Data")
@@ -230,7 +234,7 @@ st.write(
 )
 
 # Display data distribution
-st.image("../images/merged_dist.png", use_column_width=True)
+st.image(r"images/merged_dist.png", use_column_width=True)
 
 # Make text explaining confusion matrix 
 # Make a table with metrics on model
