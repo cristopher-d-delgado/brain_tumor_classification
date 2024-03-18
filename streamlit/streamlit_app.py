@@ -20,16 +20,24 @@ st.header('Please upload Brain MRI Slice Image', divider='blue')
 @st.cache_resource
 def load_keras_model(url, file_path):
     """
-    bucket_name = string
-    object_key = string
+    url = url to request
+    filer_path = file to write to. In other words save the file to.
     """
     s3_url = url
     try:
+        # Download the model from AWS bucket
         response = requests.get(s3_url)
+        
+        # Save the model to the file path
         with open(file_path, 'wb') as f:
             f.write(response.content)
-        return load_model(file_path)
+        
+        # Load the saved model
+        loaded_model = load_model(file_path)
+        return loaded_model
+    
     except Exception as e:
+        print(f"Error loading Keras model: {e}")
         return None
 
 # Cache Lime explainer
@@ -43,7 +51,15 @@ def load_lime_explainer():
 
 # Load classifier
 url = "https://braintumorclassificationcap.s3.us-west-1.amazonaws.com/op_model1_aug.keras"
-aug_model = load_keras_model(url, "op_model1_aug.keras")
+file_path = "op_model1_aug.keras"
+
+aug_model = load_keras_model(url, file_path)
+
+# Check if the model was loaded successfully
+if aug_model:
+    print("Keras model loaded successfully!")
+else:
+    print("Failed to load Keras model.")
 
 # Define Class Names
 # with open('labels.txt', 'r') as f:
