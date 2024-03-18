@@ -1,8 +1,8 @@
 python==3.9
-tensorflow
 streamlit==1.31.0
-lime
-scikit-image
-pandas
+lime==0.2.0.1
+scikit-learn==1.3.2
+pandas==2.1.4
 numpy
 matplotlib
+tensorflow==2.10.1
