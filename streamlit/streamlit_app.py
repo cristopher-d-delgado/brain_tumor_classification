@@ -1,7 +1,7 @@
 import streamlit as st
 from keras.models import load_model
 from predict import classify, preprocess_image
-from PIL import Image, ImageOps
+from PIL import Image
 from lime import lime_image
 from skimage.segmentation import mark_boundaries
 import numpy as np
