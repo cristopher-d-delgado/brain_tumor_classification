@@ -58,6 +58,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 # Create the dash app
 app = Dash(__name__, external_stylesheets=external_stylesheets)
+# Declare server for Heroku deployment. Needed for Procfile.
+server = app.server
 
 # General Model information
 markdown_1 = dcc.Markdown("""
