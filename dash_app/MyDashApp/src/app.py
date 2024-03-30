@@ -368,4 +368,4 @@ def update_prediction_output(contents):
 
 ##############################################################################################################################
 if __name__ == '__main__':
-    app.run_server(mode='external', host='localhost', port=5000)
+    app.run_server()
