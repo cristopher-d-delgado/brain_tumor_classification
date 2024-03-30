@@ -1,0 +1,12 @@
+dash==2.16.1
+lime==0.2.0.1
+matplotlib==3.8.2
+numpy==1.26.4
+Pillow==10.2.0
+requests==2.31.0
+scikit_image==0.19.3
+skimage==0.0
+tensorflow==2.10.1
+gunicorn
+pandas
+dash-tools
