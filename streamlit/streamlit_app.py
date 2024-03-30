@@ -102,7 +102,7 @@ if file is not None:
     with st.expander("See Lime Explanation Mask and Importance Heatmap"):
         with st.container():
             # Divide container into 2 columns
-            col_1, col_2 = st.columns(2)
+            #col_1, col_2 = st.columns(2)
             
             # Load Lime explainer
             explainer = load_lime_explainer()
@@ -131,59 +131,98 @@ if file is not None:
                 hide_rest=True,
                 min_weight=0.1
             )
+            
+            # Obtaining components to Diplay Heatmap on second subplot
+            ind = explanation.top_labels[0]
+            dict_heatmap = dict(explanation.local_exp[ind])
+            heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
+            
+            # Create the Lime Mask Figure with the Heatmap in a single Figure
+            # Lime Mask
+            fig, axes = plt.subplots(1, 2, figsize=(14,6), facecolor='white')
+            axes[0].imshow(mark_boundaries(temp / 2 + 0.5, mask)) # Plots image
+            axes[0].set_title("Concerning Area", fontsize=20)
+            
+            # Display heatmap on second subplot
+            heatmap_plot = axes[1].imshow(heatmap, cmap='RdBu_r', vmin=-heatmap.max(), vmax=heatmap.max())
+            axes[1].set_title("Red = More Concernig; Blue = Less Concerning", fontsize=20)
+            axes[1].set_xlim(0, img.shape[1]) # Set x-axis to equal the image width
+            axes[1].set_ylim(img.shape[0], 0) # Set y-axis to equal the image height
+            colorbar = plt.colorbar(heatmap_plot, ax=axes[1]) # Add colorbar
+            
+            # Create tight layout for figure
+            plt.tight_layout()
+            
+            # Display the figure directly using Streamlit
+            st.pyplot(fig)
+            
+            # Save the figure as html
+            # diagnostic_fig = 'diagnostic.png'
+            # fig.savefig(diagnostic_fig)    
+            
+            # # Save the figure as bytes in memory
+            # buf = io.BytesIO()
+            # fig.savefig(buf, format='jpeg')
+            # buf.seek(0)
+            
+            # # Display heatmap using Streamlit
+            # st.image(buf, caption='Lime Diagnostic', use_column_width=True)
+            
+            # # Close the file object and clear the BytesIO buffer
+            # buf.close()
+            # del buf
+            # # Display mask and image in column 2
+            # with col_1:
+            #     # Display Lime Mask using matplotlib
+            #     plt.figure(figsize=(8, 6), facecolor='white')
+            #     plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
+            #     plt.title("Concerning Area", fontsize=20)
+            #     plt.axis("off")
+            #     plt.tight_layout()
+            #     plt.show()
 
-            # Display mask and image in column 2
-            with col_1:
-                # Display Lime Mask using matplotlib
-                plt.figure(figsize=(8, 6), facecolor='white')
-                plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
-                plt.title("Concerning Area", fontsize=20)
-                plt.axis("off")
-                plt.tight_layout()
-                plt.show()
+            #     # Save plot as bytes
+            #     mask_buf = io.BytesIO()
+            #     plt.savefig(mask_buf, format='png')
+            #     mask_buf.seek(0)
 
-                # Save plot as bytes
-                mask_buf = io.BytesIO()
-                plt.savefig(mask_buf, format='png')
-                mask_buf.seek(0)
+            #     # Display mask using Streamlit
+            #     st.image(mask_buf, caption='Lime Explainer Mask. Demonstrates only the concerning area.', use_column_width=True)
 
-                # Display mask using Streamlit
-                st.image(mask_buf, caption='Lime Explainer Mask. Demonstrates only the concerning area.', use_column_width=True)
-
-                # Delete mask_buf object to free up memory
-                plt.close()
-                del mask_buf
+            #     # Delete mask_buf object to free up memory
+            #     plt.close()
+            #     del mask_buf
                 
-            # Using the same explainer get a heatmap version that explains the areas that contribute most to that decision
-            # Select the top label
-            with col_2:
-                # Select the top label
-                ind = explanation.top_labels[0]
+            # # Using the same explainer get a heatmap version that explains the areas that contribute most to that decision
+            # # Select the top label
+            # with col_2:
+            #     # Select the top label
+            #     ind = explanation.top_labels[0]
         
-                # Map each explanation weight to the corressponding superpixel
-                dict_heatmap = dict(explanation.local_exp[ind])
-                heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
+            #     # Map each explanation weight to the corressponding superpixel
+            #     dict_heatmap = dict(explanation.local_exp[ind])
+            #     heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
 
-                # Display heatmap 
-                # Display normalized heatmap with colorbar
-                plt.figure(figsize=(8,6), facecolor='white')
-                plt.imshow(heatmap, cmap='RdBu', vmin=-heatmap.max(), vmax=heatmap.max())
-                cbar = plt.colorbar()
-                cbar.ax.tick_params(labelsize=15)
-                plt.title("Blue = More Important; Red = Less Important", fontsize=20)
-                plt.axis("off")  # Hide axes
-                plt.show()
+            #     # Display heatmap 
+            #     # Display normalized heatmap with colorbar
+            #     plt.figure(figsize=(8,6), facecolor='white')
+            #     plt.imshow(heatmap, cmap='RdBu', vmin=-heatmap.max(), vmax=heatmap.max())
+            #     cbar = plt.colorbar()
+            #     cbar.ax.tick_params(labelsize=15)
+            #     plt.title("Blue = More Important; Red = Less Important", fontsize=20)
+            #     plt.axis("off")  # Hide axes
+            #     plt.show()
                 
-                # Save plot as bytes
-                buf = io.BytesIO()
-                plt.savefig(buf, format='png')
-                buf.seek(0)
+            #     # Save plot as bytes
+            #     buf = io.BytesIO()
+            #     plt.savefig(buf, format='png')
+            #     buf.seek(0)
 
-                # Display heatmap using Streamlit
-                st.image(buf, caption='Importance Heatmap', use_column_width=True)
+            #     # Display heatmap using Streamlit
+            #     st.image(buf, caption='Importance Heatmap', use_column_width=True)
                 
-                # Delete buf object to free up memory
-                del buf
+            #     # Delete buf object to free up memory
+            #     del buf
         # st.image(mark_boundaries(temp / 2 + 0.5, mask), caption="Lime Explanation", use_column_width=True)
         # st.image(heatmap)
         
