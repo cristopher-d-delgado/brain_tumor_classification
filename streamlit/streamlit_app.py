@@ -13,7 +13,7 @@ import requests
 st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
 
 # Set header for classification
-st.header('Please upload Brain MRI Slice Image', divider='blue')
+st.header('Please upload Brain MRI Slice Image')
 
 # Cache augemented model
 @st.cache_resource
@@ -230,7 +230,7 @@ if file is not None:
 #### Make a section talking about the model 
 
 # Make Section Header
-st.header('Model Information', divider='blue')
+st.header('Model Information')
 
 # Make Secondary Header
 st.write("## Model Architecture")
