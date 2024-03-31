@@ -98,10 +98,10 @@ There were many model iterations however only 4 iterations are considered vital 
 | Validation |       97.92%       |         97.98%        |  97.92%  |                   0.081                   |
 
 ### Model Deployment 
-I have created a Streamlit application that utilizes the best model which was the **Augemented model**. This application works by passing in an image and the application will provide the model prediction in addition to diagnostic information.
+I have created a Streamlit application that utilizes the best model which was the **Augmented model**. This application works by passing in an image and the application will provide the model prediction in addition to diagnostic information.
 
 #### Streamlit App
-To access the application please click [here](https://braintumorclassification-iwpxfhqwzxcvqsgjxbmjuw.streamlit.app/)
+To access the application please click [here](https://cristopher-d-delgado-brain-tumor--streamlitstreamlit-app-cu4g1w.streamlit.app/)
 
 The following image is an example of the application itself: 
 
