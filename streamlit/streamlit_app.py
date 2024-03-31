@@ -6,7 +6,6 @@ from lime import lime_image
 from skimage.segmentation import mark_boundaries
 import numpy as np
 import matplotlib.pyplot as plt
-import io
 import pandas as pd
 import requests
 
