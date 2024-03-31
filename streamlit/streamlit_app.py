@@ -94,8 +94,8 @@ if file is not None:
     probability = round(prob*100, 2)
     
     # Write classification
-    st.write(f"#### The Brain MRI image is most likely a {class_name} instance")
-    st.write(f"#### The probability that the image is a {class_name} instance is: {probability}%")
+    st.write(f"#### The Brain lesion is most likely a {class_name} case")
+    st.write(f"#### The probability associated with {class_name} is: {probability}%")
 
     # Lime Explanation
     with st.expander("See Lime Explanation Mask and Importance Heatmap"):
@@ -140,6 +140,8 @@ if file is not None:
             # Lime Mask
             fig, axes = plt.subplots(1, 2, figsize=(14,6), facecolor='white')
             axes[0].imshow(mark_boundaries(temp / 2 + 0.5, mask)) # Plots image
+            axes[0].tick_params(axis='x', which='major', labelsize=12)
+            axes[0].tick_params(axis='y', which='major', labelsize=12)
             axes[0].set_title("Concerning Area", fontsize=20)
             
             # Display heatmap on second subplot
@@ -147,7 +149,11 @@ if file is not None:
             axes[1].set_title("Red = More Concernig; Blue = Less Concerning", fontsize=20)
             axes[1].set_xlim(0, img.shape[1]) # Set x-axis to equal the image width
             axes[1].set_ylim(img.shape[0], 0) # Set y-axis to equal the image height
+            # Adjust tick marks size for both x and y axes
+            axes[1].tick_params(axis='x', which='major', labelsize=12)
+            axes[1].tick_params(axis='y', which='major', labelsize=12)
             colorbar = plt.colorbar(heatmap_plot, ax=axes[1]) # Add colorbar
+            colorbar.ax.tick_params(labelsize=12)
             
             # Create tight layout for figure
             plt.tight_layout()
