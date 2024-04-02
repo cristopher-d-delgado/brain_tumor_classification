@@ -1,6 +1,6 @@
 # Brain Tumor Classification
 ## Background
-Brain cancer is one of the top 10 cancers that can lead to death (Gao & Jiang, 2013). A brain tumor is defined as "unexpected growth of brian cells" (Reham Kaifi, 2023). The World Health Organization has categorized brain tumors into 120 categories. This categorization is all based on the cell's origin and behavior that can range from less aggressive to greater aggressive (Reham Kaifi, 2023). There are only two types of brain tumor if they are based on nature. These two types of brain tumors would be Benign and Malignant. Benign are less aggressive and grow slowly while malignant are life threatening and rapidly grow (Reham Kaifi, 2023). To be more descriptive there are normally four tumor grades shown in the table below.
+Brain cancer is one of the top 10 cancers that can lead to death (Gao & Jiang, 2013). A brain tumor is defined as "unexpected growth of brian cells" (Reham Kaifi, 2023). The World Health Organization (WHO) has categorized brain tumors into 120 categories. This categorization is all based on the cell's origin and behavior that can range from less aggressive to greater aggressive (Reham Kaifi, 2023). There are only two types of brain tumors if they are based on nature. These two types of brain tumors would be Benign and Malignant. Benign are less aggressive and grow slowly while malignant are life threatening and rapidly grow (Reham Kaifi, 2023). To be more descriptive there are normally four tumor grades shown in the table below when it comes to describing their behavior.
 
 |  Grading  |                                     Definition                                    |
 |:---------:|:---------------------------------------------------------------------------------:|
@@ -8,6 +8,14 @@ Brain cancer is one of the top 10 cancers that can lead to death (Gao & Jiang, 2
 |  Grade II | Tumor appears strange and unsymmetrical/disoriented. The tumor also grows slowly. |
 | Grade III | These tumors are described as grade II but they grow faster than grade II tumors. |
 |  Grade IV | Has a high growth rate                                                            |
+
+Aside from a grade every tumor has a primary type and a subtype which is based on the region of the brain (J. Ricardo McFaline-Figueroa & Lee, 2018). Although they may have a certain grade due to their nature, there are brain tumors that are much more common than others. In this context there are only 3 primary lesion cases that are explored. The three brain lesion cases are pituitary, meningioma, and glioma. The fourth case is an absence of a brian tumor or in other words a true negative patient. The subtypes are not explored due to the lack of data labeling on the tumor subtypes.
+
+Meningiomas are mostlty benign and slow growing tumors. These tumors originate from meningothelial cells and are the most common primary brain tumor (J. Ricardo McFaline-Figueroa & Lee, 2018). Most meningioma according to the data collected by the WHO are grades I-III based on histology data (J. Ricardo McFaline-Figueroa & Lee, 2018). Adding on, grade I meningiomas are the most favorable situation as they generally are associated with better outcomes compared to higher grade variants. They have slow growth rates, low likelihood of invasion of surrouding tissue, good treatement response, low risk of recurrence, and have long-term survival outcomes.
+
+Gliomas are the most common primary malignant tumors of the central nervous system. Gliomas arise from glial cells and the most common subtype are glioblastomas. Glioblastomas are a grad IV astrocytoma. Gliomas in general are very difficult to treat (J. Ricardo McFaline-Figueroa & Lee, 2018).
+
+Pituitary tumors grow in the pituitary gland which is located near the base of the brain below the hypothalamus. Most cases of pituitary tumors are benign. They grow slow and are not malignant. The main isue with a tumor located in the pituiatry gland is the disruption of the bodies natural harmone production. (National Institutes of Health, 2023).
 
 The gold standard protocol for assessment relies on MRI (Magnetic Resonance Imaging) imaging and the neurologists would take these images and examine them from the coronal, sagittal, and axial planes (Reham Kaifi, 2023). The process continues as the requirement for some computer vision sequence known as FLAIR is required to modify the images in order to get rid of the spinal fluid noise signals from the imaging which creates MRI imaging as shown in the image examples within the [Data Preparation](https://github.com/cristopher-d-delgado/brain_tumor_classification#data-preparation) section.
 
@@ -131,3 +139,7 @@ Keep training the model on new images to achieve a better classification perform
 2. Gao, H., & Jiang, X. (2013). Progress on the diagnosis and evaluation of brain tumors. Cancer Imaging, 13(4), 466–481. https://doi.org/10.1102/1470-7330.2013.0039
 
 3. Reham Kaifi. (2023). A Review of Recent Advances in Brain Tumor Diagnosis Based on AI-Based Classification. Diagnostics, 13(18), 3007–3007. https://doi.org/10.3390/diagnostics13183007
+
+4. J. Ricardo McFaline-Figueroa, & Lee, E. Q. (2018). Brain Tumors. The American Journal of Medicine, 131(8), 874–882. https://doi.org/10.1016/j.amjmed.2017.12.039 
+
+5. National Institutes of Health. "Pituitary Tumors". National Institute of Neurological Disorders and Stroke. https://www.ninds.nih.gov/health-information/disorders/pituitary-tumors. Last updated November 28, 2023.
