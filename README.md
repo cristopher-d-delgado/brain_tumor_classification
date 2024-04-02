@@ -131,7 +131,10 @@ In conclusion, the best model architecture is demonstrated below in the [Final M
 ![confusion_matrix_test](images/confusion_matrix_augmented.png)
 
 ### Next Steps
-Keep training the model on new images to achieve a better classification performance for meningioma and no_tumor images. Adding on, the model can be trained specifically only those instances in hopes to improve its learning capability for them.
+
+1. Keep training the model on new images to achieve a better classification performance for meningioma and no_tumor images. Adding on, the model can be trained specifically only those instances in hopes to improve its learning capability for them.
+
+2. Change the diagnostic apporoach. Currently uses LIME but, there are methods to use the last Convolutional layer and upsampling to mask over the original image. There is a possibility this segments the tumors in a better way. 
 
 ## References 
 1. Brain Tumor - Diagnosis. (2012, June 26). Cancer.net. https://www.cancer.net/cancer-types/brain-tumor/diagnosis
