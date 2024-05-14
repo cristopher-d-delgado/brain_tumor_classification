@@ -136,6 +136,19 @@ In conclusion, the best model architecture is demonstrated below in the [Final M
 
 2. Change the diagnostic apporoach. Currently uses LIME but, there are methods to use the last Convolutional layer and upsampling to mask over the original image. There is a possibility this segments the tumors in a better way. 
 
+## Repository Structure
+| brain_tumor_classification/ |
+|-----------------------------|
+| - images/                   |
+| - streamlit/                |
+| - .gitignore                |
+| - README.md                 |
+| - data_split.ipynb          |
+| - environment.yml           |
+| - functions.py              |
+| - notebook.ipynb            |
+| - presentation.pdf          |
+
 ## References 
 1. Brain Tumor - Diagnosis. (2012, June 26). Cancer.net. https://www.cancer.net/cancer-types/brain-tumor/diagnosis
 
