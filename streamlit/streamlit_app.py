@@ -8,6 +8,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import requests
+import os 
+
+# Define root directory for later on in the script 
+def get_project_root():
+    current_dir = os.path.abspath(os.path.dirname(__file__))  # Current script's directory
+    project_root = os.path.abspath(os.path.join(current_dir, ".."))  # Go up one level
+    return project_root
+
+# Construct the path to the image directory
+root_dir = get_project_root()
 
 # Title app
 st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
@@ -18,30 +28,59 @@ st.header('Please upload Brain MRI Slice Image')
 # Cache augemented model
 @st.cache_resource
 def load_keras_model(url, file_path):
-    """
-    url = url to request
-    filer_path = file to write to. In other words save the file to.
-    """
-    s3_url = url
+    """Downloads the model from an AWS bucket URL and loads it."""
     try:
-        # Download the model from AWS bucket
-        response = requests.get(s3_url)
-        
-        # Save the model to the file path
-        with open(file_path, 'wb') as f:
-            f.write(response.content)
-        
-        # Load the saved model
+        # Attempt to load the model from the specified file path
         loaded_model = load_model(file_path)
+        print("Model loaded successfully from local file.")
         return loaded_model
-    
     except Exception as e:
-        print(f"Error loading Keras model: {e}")
-        return None
+        print(f"Failed to load model from local file: {e}. Attempting to download.")
+        
+        # If loading fails, try downloading the model from the AWS bucket
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an error for bad responses
+            print("Response status code:", response.status_code)  # Log the status code
+            
+            # Save the model to the file path
+            with open(file_path, 'wb') as f:
+                f.write(response.content)
+            print("Model downloaded successfully!")
+            
+            # Load the model from the downloaded file
+            loaded_model = load_model(file_path)
+            print("Model loaded successfully from downloaded file.")
+            return loaded_model
+        
+        except Exception as e:
+            print(f"Error loading Keras model: {e}")
+            return None
+# def load_keras_model(url, file_path):
+#     """
+#     url = url to request
+#     filer_path = file to write to. In other words save the file to.
+#     """
+#     s3_url = url
+#     try:
+#         # Download the model from AWS bucket
+#         response = requests.get(s3_url)
+        
+#         # Save the model to the file path
+#         with open(file_path, 'wb') as f:
+#             f.write(response.content)
+        
+#         # Load the saved model
+#         loaded_model = load_model(file_path)
+#         return loaded_model
+    
+#     except Exception as e:
+#         print(f"Error loading Keras model: {e}")
+#         return None
 
 # Cache Lime explainer
 @st.cache_resource
-def load_lime_explainer():
+def load_lime_explainer(random_state=42):
     """
     Load LimeImageExplainer
     """
@@ -55,10 +94,16 @@ file_path = "op_model1_aug.keras"
 aug_model = load_keras_model(url, file_path)
 
 # Check if the model was loaded successfully
-if aug_model:
+if aug_model is not None:
     print("Keras model loaded successfully!")
 else:
-    print("Failed to load Keras model.")
+    print("Failed to load Keras model. Check the model loading function and the file path.")
+
+# # Check if the model was loaded successfully
+# if aug_model:
+#     print("Keras model loaded successfully!")
+# else:
+#     print("Failed to load Keras model.")
 
 # Define Class Names
 # with open('labels.txt', 'r') as f:
@@ -251,7 +296,16 @@ st.write(
 st.write("The detailed dive into the model training and development can be found in the following [repository]('https://github.com/cristopher-d-delgado/brain_tumor_classification').")
 
 # Display Model architecture plot
-st.image("images/model_arch.jpg", use_column_width=True)
+# Display the image
+image_path_arch = os.path.join(root_dir, "images/model_arch.jpg")
+if os.path.exists(image_path_arch):
+    # Load the image using PIL
+    img_arch = Image.open(image_path_arch)
+    st.image(img_arch, use_column_width=True)
+else:
+    st.error(f"Image file not found: {image_path_arch}")
+    
+#st.image("brain_tumor_classification/images/model_arch.jpg", use_column_width=True)
 
 # Make Secondary Header 
 st.write("## Performance of Testing Data")
@@ -274,7 +328,18 @@ st.write(
 )
 
 # Display data distribution
-st.image("images/merged_dist.png", use_column_width=True)
+# define merged_dist dir
+image_path_dist = os.path.join(root_dir, "images/merged_dist.png")
+
+# Display the image
+if os.path.exists(image_path_dist):
+    # Open and display image
+    img_dist = Image.open(image_path_dist)
+    st.image(img_dist, caption="Data Distribution", use_column_width=True)
+else:
+    st.error(f"Image file not found: {image_path_dist}")
+
+#st.image("brain_tumor_classification/images/merged_dist.png", use_column_width=True)
 
 # Make text explaining confusion matrix 
 # Make a table with metrics on model
@@ -296,4 +361,13 @@ st.write("## Model Metrics")
 st.table(df)
 
 # Display Confusion matrix
-st.image("images/confusion_matrix_augmented.png", use_column_width=True)
+image_path_cm = os.path.join(root_dir, "images/confusion_matrix_augmented.png")
+
+# Display the image
+if os.path.exists(image_path_cm):
+    # Open and display image
+    img_cm = Image.open(image_path_cm)
+    st.image(img_cm, caption="Confusion Matrix", use_column_width=True)
+else:
+    st.error(f"Image file not found: {image_path_arch}")
+#st.image("images/confusion_matrix_augmented.png", use_column_width=True)
