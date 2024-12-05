@@ -11,7 +11,7 @@ import pandas as pd
 import requests
 import os 
 import logging
-
+##############################################################################
 # Define root directory for later on in the script 
 def get_project_root():
     current_dir = os.path.abspath(os.path.dirname(__file__))  # Current script's directory
@@ -22,7 +22,7 @@ def get_project_root():
 root_dir = get_project_root()
 
 # Title app
-st.title("Brain Tumor Classification with Magnetic Resonance Imaging")
+st.title("Brain Lesion Classification with Magnetic Resonance Imaging")
 
 # Set header for classification
 st.header('Please upload Brain MRI Slice Image')
@@ -30,7 +30,7 @@ st.header('Please upload Brain MRI Slice Image')
 ### Cache augemented model
 @st.cache_resource
 def load_keras_model(url, file_path):
-    """Downloads the model from an AWS bucket URL and loads it."""
+    """Downloads the model from an AWS S3 bucket URL and loads it."""
     try:
         loaded_model = load_model(file_path)
         logging.info("Model loaded successfully from local file.")
@@ -143,9 +143,20 @@ file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
 # Create statement to predict if the file uploader is used
 # Process uploaded file
 if file:
-    st.session_state["image_source"] = "upload"
-    st.session_state["uploaded_image"] = Image.open(file).convert("RGB")
-    st.image(st.session_state["uploaded_image"], caption="Uploaded Image", use_column_width=True)
+    try:
+        # Load the uploaded image
+        uploaded_image = Image.open(file).convert("RGB")
+        st.image(uploaded_image, caption="Uploaded Image", use_column_width=True)
+        
+        # Add a button to trigger predictions
+        if st.button("Analyze Uploaded Image"):
+            explainer = load_lime_explainer()
+            display_prediction(uploaded_image, aug_model, explainer)
+    except Exception as e:
+        st.error(f"Error processing the image: {e}")
+    # st.session_state["image_source"] = "upload"
+    # st.session_state["uploaded_image"] = Image.open(file).convert("RGB")
+    # st.image(st.session_state["uploaded_image"], caption="Uploaded Image", use_column_width=True)
 # if file:
 #     try:
 #         image = Image.open(file).convert("RGB")
@@ -177,15 +188,36 @@ with st.container():
         label="Select Glioma Instance",
         images=glioma_img_urls,
         captions=captions,
-        index=0  # Placeholder selected by default
+        index=0  # Placeholder image selected by default
     )
 
     # Add a conditional check to see if placeholder is selected
     # If a valid image is selected, update session state
-    if selected_img != placeholder_image:
-        st.session_state["image_source"] = "selection"
-        st.session_state["selected_image"] = Image.open(requests.get(selected_img, stream=True).raw)
-        st.image(st.session_state["selected_image"], caption="Selected Image", use_column_width=True)
+    if selected_img == placeholder_image:
+        st.write("Please selecy a valid image to analyze.")
+    else:
+        # Display the selected image
+        st.image(selected_img, caption="Selected Image", use_column_width=True)
+
+        # Add a button to trigger predictions
+        if st.button("Analyze Selected Image"):
+            try:
+                selected_image = Image.open(requests.get(selected_img, stream=True).raw)
+                explainer = load_lime_explainer()
+                display_prediction(selected_image, aug_model, explainer)
+            except Exception as e:
+                st.error(f"Error processing the selected image: {e}")
+        # try:
+        #     # Process image and display it 
+        #     image = Image.open(requests.get(selected_img, stream=True).raw)
+        #     explainer = load_lime_explainer()
+        #     display_prediction(image, aug_model, explainer)
+        # except Exception as e:
+        #     st.error(f"Error processing the selected image: {e}")
+    # if selected_img != placeholder_image:
+    #     st.session_state["image_source"] = "selection"
+    #     st.session_state["selected_image"] = Image.open(requests.get(selected_img, stream=True).raw)
+    #     st.image(st.session_state["selected_image"], caption="Selected Image", use_column_width=True)
 
     # if selected_img == placeholder_image:
     #     st.write("Please select and image to analyze")
@@ -199,14 +231,17 @@ with st.container():
     #         st.error(f"Error processing the selected image: {e}")
 
 # Add a button to explicitly trigger the prediction
-if st.button("Analyze Image"):
-    if st.session_state["image_source"] == "upload" and "uploaded_image" in st.session_state:
-        image = st.session_state["uploaded_image"]
-    elif st.session_state["image_source"] == "selection" and "selected_image" in st.session_state:
-        image = st.session_state["selected_image"]
-    else:
-        st.error("No valid image provided. Please upload or select an image.")
-        st.stop()
+with st.container():
+    col1, col2, col3 = st.columns(3)
+    with col2:
+        if st.button("Analyze Image"):
+            if st.session_state["image_source"] == "upload" and "uploaded_image" in st.session_state:
+                image = st.session_state["uploaded_image"]
+            elif st.session_state["image_source"] == "selection" and "selected_image" in st.session_state:
+                image = st.session_state["selected_image"]
+            else:
+                st.error("No valid image provided. Please upload or select an image.")
+                st.stop()
 
     # Trigger prediction and display results
     explainer = load_lime_explainer()
