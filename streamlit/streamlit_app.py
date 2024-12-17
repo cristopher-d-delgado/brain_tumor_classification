@@ -50,30 +50,35 @@ def display_prediction(image, model, explainer):
 
     class_name, prob = classify(image, model, class_names)
     st.write(f"#### Likely diagnosis: {class_name} ({round(prob * 100, 2)}%) certainty.")
+    
+    # If tumor is detected show explanation
+    if class_name != 'no_tumor':
+        with st.expander("See Explanation"):
+            img = preprocess_image(image)
+            explanation = explainer.explain_instance(
+                img, model.predict, top_labels=4, num_samples=1500
+            )
+            temp, mask = explanation.get_image_and_mask(
+                explanation.top_labels[0], positive_only=True, num_features=5, hide_rest=True
+            )
+            
+            ind = explanation.top_labels[0]
+            dict_heatmap = dict(explanation.local_exp[ind])
+            heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
+            
+            # Plot Lime Mask and Heatmap
+            fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+            axes[0].imshow(mark_boundaries(temp / 2 + 0.5, mask))
+            axes[0].set_title("Concerning Area", fontsize=20)
 
-    with st.expander("See Explanation"):
-        img = preprocess_image(image)
-        explanation = explainer.explain_instance(
-            img, model.predict, top_labels=4, num_samples=1500
-        )
-        temp, mask = explanation.get_image_and_mask(
-            explanation.top_labels[0], positive_only=True, num_features=5, hide_rest=True
-        )
-        
-        ind = explanation.top_labels[0]
-        dict_heatmap = dict(explanation.local_exp[ind])
-        heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
-        
-        # Plot Lime Mask and Heatmap
-        fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-        axes[0].imshow(mark_boundaries(temp / 2 + 0.5, mask))
-        axes[0].set_title("Concerning Area", fontsize=20)
-
-        heatmap_plot = axes[1].imshow(heatmap, cmap="RdBu_r", vmin=-heatmap.max(), vmax=heatmap.max())
-        axes[1].set_title("Red = More Concerning; Blue = Less Concerning", fontsize=20)
-        plt.colorbar(heatmap_plot, ax=axes[1])
-        plt.tight_layout()
-        st.pyplot(fig)
+            heatmap_plot = axes[1].imshow(heatmap, cmap="RdBu_r", vmin=-heatmap.max(), vmax=heatmap.max())
+            axes[1].set_title("Red = More Concerning; Blue = Less Concerning", fontsize=20)
+            plt.colorbar(heatmap_plot, ax=axes[1])
+            plt.tight_layout()
+            st.pyplot(fig)
+    else:
+        # Explain why there is no explanation
+        st.markdown("<p style='color: red; font-size: 20px;'>**No LIME explanation needed as predicted instance suggests 'No_Tumor'.**</p>", unsafe_allow_html=True)
 
 # Placeholder and example images for the categories
 example_images = {
@@ -117,8 +122,9 @@ if "selected_category" not in st.session_state:
 st.title("Brain Lesion Classification")
 
 # Add disclaimer
-st.write("*Disclaimer: Not all predictions will be correct. The examples provided are the ground truth.")
-
+st.write("**Disclaimer: Not all predictions will be correct. The examples provided are the ground truth.**")
+st.write("**Please wait for the streamlit app to show the LIME explation dropdown popup after pressing the 'Analyze' button.**")
+st.write("**Aditionally, the 'No Tumor' class will not show a LIME Mask explanation.**")
 # Category Selection
 category = st.selectbox(
     "Select Category", ["Glioma", "Meningioma", "Pituitary", "No_Tumor"]
